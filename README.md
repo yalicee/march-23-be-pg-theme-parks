@@ -18,7 +18,7 @@ npm install
 npm test
 ```
 
-Don't panic - all of the tests are should fail at this point!
+Don't panic - all of the tests should fail at this point!
 
 ## Challenges
 
