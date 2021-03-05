@@ -47,7 +47,6 @@ The body of the response that you send from your server to the client should be 
       "year_opened": 1979,
       "annual_attendance": 1700000
     }
-    // ... more parks
   ]
 }
 ```
