@@ -158,7 +158,7 @@ If no query is provided, respond with the unchanged ride.
 
 ## Even More Challenges!
 
-Still going? 😮 Have a go at building any of the following endpoints:
+Still going? 😮  Have a go at building any of the following endpoints:
 
 - `GET /api/parks/:park_id/stalls` => Responds with an object containing an array of stalls at the specified theme park.
 - `POST /api/parks/:park_id/stalls` => Adds a new stall to the database and responds with an object containing the new stall object if the post is successful.
