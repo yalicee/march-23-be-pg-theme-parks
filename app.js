@@ -1,6 +1,4 @@
 const express = require('express');
-const app = express();
-
 const {
   getParks,
   getParkById,
@@ -9,13 +7,14 @@ const {
   patchParkById,
 } = require('./controllers/parks');
 
-app.route('/api/parks').get(getParks).post(postPark);
+const app = express();
 
-app
-  .route('/api/parks/:park_id')
-  .get(getParkById)
-  .delete(removeParkById)
-  .patch(patchParkById);
+app.get('/api/parks', getParks);
+app.post('/api/parks', postPark);
+
+app.get('/api/parks/:park_id', getParkById);
+app.delete('/api/parks/:park_id', removeParkById);
+app.patch('/api/parks/:park_id', patchParkById);
 
 app.all('/*', (req, res) => {
   res.status(404).send({ msg: 'Route not found' });
