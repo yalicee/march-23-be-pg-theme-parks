@@ -93,7 +93,7 @@ Response body structure:
 }
 ```
 
-> **Hint:** Don't forget to [parse the incoming request body to JSON](https://expressjs.com/en/4x/api.html#express.json)!
+#### ❗ **Hint:** Don't forget to [parse the incoming request body to JSON](https://expressjs.com/en/4x/api.html#express.json)! 
 
 ### 4. DELETE /api/parks/:park_id
 
