@@ -165,4 +165,4 @@ Still going? 😮  Have a go at building any of the following endpoints:
 - `GET /api/rides?since=<NUMBER>` => Responds with an object containing an array of rides opened before the year specified in the query.
 - `GET /api/rides?after=<NUMBER>` => Responds with an object containing an array of rides opened after the year specified in the query.
 - `GET /api/rides?minVotes=<NUMBER>` => Responds with an object containing an array of rides with at least the number of votes specified in the query.
-- `GET /api/rides?since=<NUMBER>&&minVotes=<NUMBER>`=> Responds with an object containing an array of rides that meet the criteria of multiple queries.
+- `GET /api/rides?since=<NUMBER>&minVotes=<NUMBER>`=> Responds with an object containing an array of rides that meet the criteria of multiple queries.
