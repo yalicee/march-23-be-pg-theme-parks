@@ -2,7 +2,7 @@ const express = require('express');
 const {
   getParks,
   getParkById,
-  removeParkById,
+  deleteParkById,
   postPark,
   patchParkById,
 } = require('./controllers/parks');
@@ -13,7 +13,7 @@ app.get('/api/parks', getParks);
 app.post('/api/parks', postPark);
 
 app.get('/api/parks/:park_id', getParkById);
-app.delete('/api/parks/:park_id', removeParkById);
+app.delete('/api/parks/:park_id', deleteParkById);
 app.patch('/api/parks/:park_id', patchParkById);
 
 app.all('/*', (req, res) => {
