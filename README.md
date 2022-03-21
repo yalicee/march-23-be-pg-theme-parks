@@ -99,8 +99,8 @@ Response body structure:
 
 Remove the specified park from the database and respond with the appropriate status code but _no response body_.
 
-- Controller: `removeParkById` in `./controllers/parks.js`
-- Model: `deleteParkById` in `./models/parks.js`
+- Controller: `deleteParkById` in `./controllers/parks.js`
+- Model: `removeParkById` in `./models/parks.js`
 
 A successful `DELETE` request should respond with a [204 No Content](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/204) status code.
 
