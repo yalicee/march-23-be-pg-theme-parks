@@ -13,6 +13,6 @@ exports.getParkById = () => {};
 
 exports.postPark = () => {};
 
-exports.removeParkById = () => {};
+exports.deleteParkById = () => {};
 
 exports.patchParkById = () => {};
