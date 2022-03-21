@@ -4,6 +4,6 @@ exports.selectParkById = () => {};
 
 exports.insertPark = () => {};
 
-exports.deleteParkById = () => {};
+exports.removeParkById = () => {};
 
 exports.updateParkById = () => {};
