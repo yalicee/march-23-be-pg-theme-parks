@@ -1,168 +1,156 @@
 # PG Theme Parks
 
-We have a database full of information all about theme parks. The goal today is to build a REST API so that people can see, add to, and update the data from across the internet without handing over complete access to the database.
+Northcoders wants to get all the major theme parks to sign up to a service we will be creating to help theme park lovers find the best rides and food options at all the theme parks in the UK.
 
-So that you can spend a larger proportion of your time using `node-postgres`, an express server with routing has been set up for you. It is your job to complete the controllers and models and link them together.
+Before we can do that, we need to get some sample data into our database so we can get them interested. We have provided you with some js files that contain this sample data.
 
-## Setup
+Your tasks today will involve creating the tables, inserting the data and confirming that all of that data has been added.
 
-### Install the project's dependencies:
+### Task 1
 
-```sh
-npm install
-```
+First you will need to create your databases, to do this run the `npm run setup-dbs` command.
 
-### Ensure the tests run:
-
-```sh
-npm test
-```
-
-Don't panic - all of the tests should fail at this point!
-
-## Challenges
-
-Each of the following challenges has a test already written in `__tests__/app.test.js`. Use the tests to check your work as you go. Feel free to explore the test file but don't worry too much about how exactly it works as that will be covered soon!
-
-### Create a connection pool
+Now you have your databases you can create your database connection, to do this you'll need to update the `connection.js` file, we have already made the file but you'll need to add the code.
 
 - Install [node-postgres](https://node-postgres.com/)
-- Create a new [connection pool](https://node-postgres.com/features/connecting) in the `db/index.js` file
+- Create a new [connection pool](https://node-postgres.com/features/connecting) in the `db/connection.js` file
 - Export the connection pool so that it is available for use in other files
 
-### 1. GET /api/parks
+### Task 2
 
-Complete the model (`selectParks` in `./models/parks.js`) and controller (`getParks` in `./controllers/parks.js`) to make your server respond with an array containing all of the parks in the database when somebody makes a `GET` request to the `/api/parks` endpoint of your server.
+Now that we can connect to the database we need to think about the order in which we are going to create our tables, in the structure of our data we need to first create the tables that do not reference other tables.
 
-A successful `GET` request should respond with a [200 OK](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/200) status code.
+The `parks` table is one that doesn't have any relations.
 
-The body of the response that you send from your server to the client should be structured like this:
+Update the `createParks` function to create a table called parks
 
-```json
-{
-  "parks": [
-    {
-      "park_id": 1,
-      "park_name": "Thorpe Park",
-      "year_opened": 1979,
-      "annual_attendance": 1700000
-    }
-  ]
-}
+The table will need:
+
+- park_id : Serial Primary Key
+- park_name : VarChar Not Null
+- year_opened: INT Not Null
+- annual_attendance: INT not null
+
+You can check this has worked by running `npm run seed` and checking the table looks as expected in the psql command line.
+
+### Task 3
+
+Next you'll need to create the `rides` table and add it to the seed function
+
+The table will need a serial primary key of ride_id, and a park_id key that will be an INT and need to reference the parks tables park_id column, it will also need a ride_name, year_opened and votes column, take a look at the data to decide on what data types to make them.
+
+### Task 4
+
+Now that we have created our tables we will need to insert the data into our table.
+
+create a function called `insertParks` and add it to the promise chain in the seed function.
+
+You will need to install pg-format `npm install -D pg-format` to do this.
+
+[documentation](https://github.com/datalanche/node-pg-format)
+
+### Task 5
+
+Now we should have some parks data stored in our database, You can complete the `selectParks` function in models.js
+
+In order to ensure this is working correctly we have written the tests for you.
+
+Feel free to add a .only to the first test to avoid a few errors if you wish.
+
+You can run the tests in the terminal with `npm test`
+
+If your table creation and inserting has worked as expected this test should pass once you complete the function.
+
+### Task 6
+
+In order to insert the rides to our database we have a couple of problems;
+The rides data has keys of `park_name` but the columns in our table need to have `park_id` inserted into them.
+
+In order to be able to insert the rides data we will need to be able to work out which `park_id` goes with which `park_name`, in order to do this we will have to make some changes to the way we have implemented inserting the data in the seed file. We will need access to both the rows that have been inserted to the `parks` table.
+
+In order to access all of this data you will need to make sure the `insert` function is `returning` the data from the rows.
+
+Refactor the `insertParks` function to return all of the data that has been inserted
+
+### Task 7
+
+You should now be able to access the data in the `.then` block after you've inserted the parks, you will need to format the rides data so that each of the rides instead of having a `park_name` property has an appropriate `park_id`.
+
+create a function called `formatRides`, this function should take an array of rides and update the appropriate keys on each one, this is a utility function, write some tests for this function in `utils.test.js` and make sure to use TDD. Think about how you are going to ensure that each ride has the correct `park_id`.
+
+```js
+[
+  {
+    ride_name: 'Tidal Wave',
+    year_opened: 2000,
+    park_name: 'Thorpe Park',
+    votes: 1,
+  },
+];
 ```
 
-### 2. GET /api/parks/:park_id
+will become
 
-Finish the model and controller to allow a user to view information about a specified park.
-
-- Controller: `getParkById` in `./controllers/parks.js`
-- Model: `selectParkById` in `./models/parks.js`
-
-Response body structure:
-
-```json
-{
-  "park": {
-    "park_id": 1,
-    "park_name": "Thorpe Park",
-    "year_opened": 1979,
-    "annual_attendance": 1700000
-  }
-}
+```js
+[
+  {
+    ride_name: 'Tidal Wave',
+    year_opened: 2000,
+    park_id: 1,
+    votes: 1,
+  },
+];
 ```
 
-### 3. POST /api/parks
+### Task 8
 
-Finish the model and controller to allow a user to add a new park to the database. They will need to provide `park_name`,`year_opened`, and `annual_attendance` properties in the request body. Respond with the newly created park.
+Now that we are able to format the rides, use that function to format the rides data and insert the data into the rides table.
 
-- Controller: `postPark` in `./controllers/parks.js`
-- Model: `insertPark` in `./models/parks.js`
+### Task 9
 
-A successful `POST` request should respond with a [201 Created](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/201) status code.
+Now we should have some rides data stored in our database, You can complete the `selectRidesByParkId` function in models.js
 
-Response body structure:
+### Task 10
 
-```json
-{
-  "park": {
-    "park_id": 4,
-    "park_name": "New Park Name",
-    "year_opened": 2022,
-    "annual_attendance": 0
-  }
-}
-```
+Complete the `updatePark` function in models.js
 
-#### ❗ **Hint:** Don't forget to [parse the incoming request body to JSON](https://expressjs.com/en/4x/api.html#express.json)! 
+### Task 11
 
-### 4. DELETE /api/parks/:park_id
+Complete the `removePark` function in models.js
 
-Remove the specified park from the database and respond with the appropriate status code but _no response body_.
+## Advanced Tasks
 
-- Controller: `deleteParkById` in `./controllers/parks.js`
-- Model: `removeParkById` in `./models/parks.js`
+### Task 12
 
-A successful `DELETE` request should respond with a [204 No Content](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/204) status code.
+Take a look at the foods and stalls data in the `data` folder, this is a many to many relationship, think about the data types you want to store and which tables you will need to create to build this
 
-### 5. PATCH /api/parks/:park_id
+** Hint: You will need to create three tables if you want to store this without duplicating any information **
 
-Only allow a user to update both the `park_name` & `annual_attendance` properties in the request body. Let's assume for this endpoint that a user _always_ provides both properties when they want to update a park. Respond with the newly updated park.
+Update your seed function to create the tables required to store the stalls and food data
 
-A successful `PATCH` request should respond with a [200 OK](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/200) status code.
+### Task 13
 
-- Controller: `patchParkById`in `./controllers/parks.js`
-- Model: `updateParkById` in `./models/parks.js`
+Insert the data from foods and stalls into your database.
 
-## Extra Challenges
+Do make sure to write some tests for any utility functions that you need to create.
 
-Good work making it this far! ⚡️
+### Task 14
 
-For the next set of challenges, you will have to build your own controllers and models. There are no tests for these challenges, so you will have to verify that they behave as they should by running your server and making requests to it with [Insomnia](https://insomnia.rest/).
+Create and test a `getStallById` model, this function should return all the foods that stall stocks as well as all the stall information
 
-```sh
-npm run dev
-```
+### Task 15
 
-### 6. GET /api/parks/:park_id/rides
+Create and test an `updateStall` model that will add an extra food that stall serves.
 
-Responds with an object containing an array of rides at the specified theme park.
+### Task 16
 
-### 7. GET /api/rides/:ride_id
-
-Using an SQL `JOIN`, respond with an object containing a single ride object with its `park_id` and `category_id` columns populated with their `park_name` and `category_name` values respectively, with the column names aliased to `park` and `category`.
-
-```json
-Example response:
-
-{
- "ride": {
-    "id": 1,
-    "ride_name": "Colossus",
-    "year_opened": 2002,
-    "votes": 5,
-    "park": "Thorpe Park",
-    "category": "Rollercoaster"
-  }
-}
-```
-
-### 8. POST /api/parks/:park_id/rides
-
-Add a new ride to the database and responds with an object containing the new ride object.
-
-### 9. PATCH /api/rides/:ride_id?vote=**up** OR **down**
-
-Adjusts the votes (by 1) of an individual ride dependant on the request query and responds with an object containing the updated ride.
-
-If no query is provided, respond with the unchanged ride.
+Create and test a `removeStall` model.
 
 ## Even More Challenges!
 
-Still going? 😮  Have a go at building any of the following endpoints:
+Still going? 😮 Have a go at building any of the following models:
 
-- `GET /api/parks/:park_id/stalls` => Responds with an object containing an array of stalls at the specified theme park.
-- `POST /api/parks/:park_id/stalls` => Adds a new stall to the database and responds with an object containing the new stall object if the post is successful.
-- `GET /api/rides?since=<NUMBER>` => Responds with an object containing an array of rides opened before the year specified in the query.
-- `GET /api/rides?after=<NUMBER>` => Responds with an object containing an array of rides opened after the year specified in the query.
-- `GET /api/rides?minVotes=<NUMBER>` => Responds with an object containing an array of rides with at least the number of votes specified in the query.
-- `GET /api/rides?since=<NUMBER>&minVotes=<NUMBER>`=> Responds with an object containing an array of rides that meet the criteria of multiple queries.
+- `createStall()`
+- `selectRides()`
+- update your `selectRides` function so it takes an optional minVotes parameter, if its present it should only select the rides with votes above the given number
+- update your `selectRides` function so it takes an optional openSince parameter, if its present it should only select the rides that opened after a given date
