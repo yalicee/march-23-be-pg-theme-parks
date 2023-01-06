@@ -8,7 +8,7 @@ Your tasks today will involve creating the tables, inserting the data and confir
 
 ### Task 1
 
-First you will need to create your databases, to do this run the `npm run setup-dbs` command.
+First you will need to create your databases, to do this run the `npm run setup-db` command.
 
 Now you have your databases you can create your database connection, to do this you'll need to update the `connection.js` file, we have already made the file but you'll need to add the code.
 
@@ -18,11 +18,13 @@ Now you have your databases you can create your database connection, to do this 
 
 ### Task 2
 
-Now that we can connect to the database we need to think about the order in which we are going to create our tables, in the structure of our data we need to first create the tables that do not reference other tables.
+Now that we can connect to your database, lets start the process of seeding it.
+
+The order in which we are going to create our tables, in the structure of our data we need to first create the tables that do not reference other tables.
 
 The `parks` table is one that doesn't have any relations.
 
-Update the `createParks` function to create a table called parks
+Update the `createParks` function to create a table called parks in your `seed.js` file.
 
 The table will need:
 
@@ -31,7 +33,7 @@ The table will need:
 - year_opened: INT Not Null
 - annual_attendance: INT not null
 
-You can check this has worked by running `npm run seed` and checking the table looks as expected in the psql command line.
+You can check this has worked by running `npm run seed` and checking the table looks as expected in the `psql` command line.
 
 ### Task 3
 
@@ -41,7 +43,7 @@ The table will need a serial primary key of ride_id, and a park_id key that will
 
 ### Task 4
 
-Now that we have created our tables we will need to insert the data into our table.
+Now that we have created our tables we will need to insert some data into it.
 
 create a function called `insertParks` and add it to the promise chain in the seed function.
 
@@ -49,13 +51,15 @@ You will need to install pg-format `npm install -D pg-format` to do this.
 
 [documentation](https://github.com/datalanche/node-pg-format)
 
+This function should insert all of the parks data that we are requiring in on line 1.
+
 ### Task 5
 
 Now we should have some parks data stored in our database, You can complete the `selectParks` function in models.js
 
 In order to ensure this is working correctly we have written the tests for you.
 
-Feel free to add a .only to the first test to avoid a few errors if you wish.
+Feel free to add a `.only` to the first test to avoid a few errors if you wish.
 
 You can run the tests in the terminal with `npm test`
 
@@ -66,7 +70,7 @@ If your table creation and inserting has worked as expected this test should pas
 In order to insert the rides to our database we have a couple of problems;
 The rides data has keys of `park_name` but the columns in our table need to have `park_id` inserted into them.
 
-In order to be able to insert the rides data we will need to be able to work out which `park_id` goes with which `park_name`, in order to do this we will have to make some changes to the way we have implemented inserting the data in the seed file. We will need access to both the rows that have been inserted to the `parks` table.
+In order to be able to insert the rides data we will need to be able to work out which `park_id` goes with which `park_name`, in order to do this we will have to make some changes to the way we have implemented inserting the data in the seed file. We will need access to the rows that have been inserted to the `parks` table.
 
 In order to access all of this data you will need to make sure the `insert` function is `returning` the data from the rows.
 

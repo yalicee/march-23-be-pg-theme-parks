@@ -1,10 +1,4 @@
-const {
-  parks,
-  ride_categories,
-  rides,
-  stall_categories,
-  stalls,
-} = require('./data/index.js');
+const { parks, rides, stalls } = require('./data/index.js');
 
 const db = require('./connection');
 
@@ -29,10 +23,8 @@ function seed() {
 }
 
 function createParks() {
-  return db.query('DROP TABLE IF EXISTS parks;').then(() => {
-    /* Create your parks table in the query below */
-    return db.query('');
-  });
+  /* Create your parks table in the query below */
+  return db.query('');
 }
 
 module.exports = { seed };
