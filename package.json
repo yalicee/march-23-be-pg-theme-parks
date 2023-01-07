@@ -3,14 +3,13 @@
   "version": "1.0.0",
   "main": "app.js",
   "devDependencies": {
-    "jest": "^26.6.3",
-    "nodemon": "^2.0.7",
-    "supertest": "^6.1.3"
+    "jest": "^26.6.3"
   },
   "scripts": {
     "test": "npm run setup-db && PGDATABASE=theme_parks jest",
     "setup-db": "psql -f db/theme-parks.sql",
-    "dev": "PGDATABASE=theme_parks nodemon listen.js"
+    "seed": "PGDATABASE=theme_parks node run-seed.js",
+    "sql-playground": "psql -f ./db/playground.sql"
   },
   "repository": {
     "type": "git",
@@ -23,7 +22,5 @@
     "url": "https://github.com/northcoders/be-pg-themeparks/issues"
   },
   "homepage": "https://github.com/northcoders/be-pg-themeparks#readme",
-  "dependencies": {
-    "express": "^4.17.1"
-  }
+  "dependencies": {}
 }
