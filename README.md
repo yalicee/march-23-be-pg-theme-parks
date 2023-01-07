@@ -114,6 +114,8 @@ Now that we are able to format the rides, use that function to format the rides 
 
 Now we should have some rides data stored in our database, You can complete the `selectRidesByParkId` function in models.js
 
+** Hint: I know that we've just gone through all the effort of converting the `park_name`s to `park_id`s but our clients will want the names to be sent to them. **
+
 ### Task 10
 
 Complete the `updatePark` function in models.js
