@@ -6,7 +6,7 @@ Before we can do that, we need to get some sample data into our database so we c
 
 Your tasks today will involve creating the tables, inserting the data and confirming that all of that data has been added.
 
-### Task 1
+### Task 1
 
 First you will need to create your databases, to do this run the `npm run setup-db` command.
 
@@ -16,7 +16,7 @@ Now you have your databases you can create your database connection, to do this 
 - Create a new [connection pool](https://node-postgres.com/features/connecting) in the `db/connection.js` file
 - Export the connection pool so that it is available for use in other files
 
-### Task 2
+### Task 2
 
 Now that we can connect to your database, lets start the process of seeding it.
 
