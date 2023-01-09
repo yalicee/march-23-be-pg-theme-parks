@@ -66,8 +66,7 @@ Create a function called `insertParks` and add it to the promise chain in the se
 
 ### Task 5
 
->point towards above?
-Now we should have some parks data stored in our database, You can complete the `selectParks` function in models.js
+Now we should have some parks data stored in our database, You can complete the `selectParks` function in models/parks.js
 
 In order to ensure this is working correctly we have written the tests for you.
 
