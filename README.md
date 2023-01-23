@@ -46,7 +46,8 @@ You can check this has worked by running `npm run seed` and checking the table l
 Next you'll need to create the `rides` table and add it to the seed function. You may want to do this with a function, as above.
 
 The table will need:
-- a serial primary key of `ride_id`, 
+
+- a serial primary key of `ride_id`,
 - a `park_id` key that will be an `INT` and need to reference the `parks` table's `park_id` column.
 
 It will also need: `ride_name`, `year_opened` and `votes` columns.
@@ -105,6 +106,7 @@ Create a function called `arrangeParksData()`. This will be used as a *utility f
 `arrangeParksData()` should take one argument,`parksData`, which will - eventually - be the`parks` data we have required into the module on Line 1.
 
 It should return a nested array of values from the inserted data.
+Next you'll need to create the `rides` table and add it to the seed function. You may want to do this with a function, as above.
 
 ```JavaScript
 // when passed: 
@@ -123,16 +125,30 @@ const parks = [
 
 
 arrangeParksData(parks)
-// it will return: [[ 'Thorpe Park', 1979, 1700000], ['Alton Towers', 1980, 2520000]] 
+// it will return: [[ 'Thorpe Park', 1979, 1700000], ['Alton **Towers', 1980,** 2520000]] 
+```
+
+To do this dynamically, using our data files, you will need to install pg-format:
+
+```zsh
+npm install -D pg-format
 ```
 
 ### 4.2
+As you can see from the [documentation](https://github.com/datalanche/node-pg-format) for pg-format and the [NC Notes](https://notes.northcoders.com/courses/js-back-end/seeding-with-pg), the `format()` takes two arguments:
 
 We're ready to insert some data in to our `parks` table now!
+- An SQL query string, which can contain a placeholder for the formatted values
+- A nested array of the values to be inserted for each record
 
 Create a function called `insertParks` and add it to the promise chain in the seed function.
+>It's important to note here that `format()` returns a *string*, it does not make the query for us.
 
+#### 4.1
+In order to prepare our JSON data for formatting into 
+#### 4.2 
 This function should insert all of the parks data that we are requiring in on Line 1 and should utilise `pg-format` and the `arrangeParksData()` function you have just defined.
+Create a function called `insertParks` and add it to the promise chain in the seed function.
 
 ### Task 5
 
