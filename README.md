@@ -18,7 +18,7 @@ Now you have your databases you can create your database connection, to do this 
 
 ### Task 2
 
-Now that we can connect to your database, lets start the process of seeding it.
+Now that we can connect to your database, let's start the process of **seeding** it.
 
 The order in which we are going to create our tables, in the structure of our data we need to first create the tables that do not reference other tables.
 
@@ -37,24 +37,36 @@ You can check this has worked by running `npm run seed` and checking the table l
 
 ### Task 3
 
-Next you'll need to create the `rides` table and add it to the seed function
+Next you'll need to create the `rides` table and add it to the seed function. You may want to do this with a function, as above.
 
-The table will need a serial primary key of ride_id, and a park_id key that will be an INT and need to reference the parks tables park_id column, it will also need a ride_name, year_opened and votes column, take a look at the data to decide on what data types to make them.
+The table will need a serial primary key of `ride_id`, and a `park_id` key that will be an `INT` and need to reference the `parks` table's `park_id` column, it will also need a `ride_name`, `year_opened` and `votes` column, take a look at the data to decide on what data types to make them.
 
 ### Task 4
 
-Now that we have created our tables we will need to insert some data into it.
+Now that we have created our tables we will need to **insert some data** into it.
 
-create a function called `insertParks` and add it to the promise chain in the seed function.
+To do this dynamically, using our JSON data files, you will need to install pg-format:
 
-You will need to install pg-format `npm install -D pg-format` to do this.
+```zsh
+npm install -D pg-format
+```
 
-[documentation](https://github.com/datalanche/node-pg-format)
+As you can see from the [documentation](https://github.com/datalanche/node-pg-format) for pg-format and the [NC Notes](https://notes.northcoders.com/courses/js-back-end/seeding-with-pg), the `format()` takes two arguments:
 
+- An SQL query string, which can contain a placeholder for the formatted values
+- A nested array of the values to be inserted for each record
+
+>It's important to note here that `format()` returns a *string*, it does not make the query for us.
+
+#### 4.1
+In order to prepare our JSON data for formatting into 
+#### 4.2 
 This function should insert all of the parks data that we are requiring in on line 1.
+Create a function called `insertParks` and add it to the promise chain in the seed function.
 
 ### Task 5
 
+>point towards above?
 Now we should have some parks data stored in our database, You can complete the `selectParks` function in models.js
 
 In order to ensure this is working correctly we have written the tests for you.
@@ -73,7 +85,7 @@ The rides data has keys of `park_name` but the columns in our table need to have
 In order to be able to insert the rides data we will need to be able to work out which `park_id` goes with which `park_name`, in order to do this we will have to make some changes to the way we have implemented inserting the data in the seed file. We will need access to the rows that have been inserted to the `parks` table.
 
 In order to access all of this data you will need to make sure the `insert` function is `returning` the data from the rows.
-
+> Split?
 Refactor the `insertParks` function to return all of the data that has been inserted
 
 ### Task 7
