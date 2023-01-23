@@ -45,7 +45,7 @@ The table will need a serial primary key of `ride_id`, and a `park_id` key that 
 
 Now that we have created our tables we will need to **insert some data** into it.
 
-To do this dynamically, using our JSON data files, you will need to install pg-format:
+To do this dynamically, using our data files, you will need to install pg-format:
 
 ```zsh
 npm install -D pg-format
@@ -56,13 +56,69 @@ As you can see from the [documentation](https://github.com/datalanche/node-pg-fo
 - An SQL query string, which can contain a placeholder for the formatted values
 - A nested array of the values to be inserted for each record
 
->It's important to note here that `format()` returns a *string*, it does not make the query for us.
+
+```js
+const format = require('pg-format');
+const db = require('./');
+
+const itemsInsertStr = format(
+  `INSERT INTO items
+    (item_name, quantity)
+  VALUES
+    %L
+  RETURNING *;`,
+  nestedArrOfValues // [['item-A', 3], ['item-B', 5]]
+);
+
+db.query(itemsInsertStr)
+/* returns: 
+  `INSERT INTO items
+    (item_name, quantity)
+  VALUES
+    ('item-A', 3)
+    ('item-B', 5)
+  RETURNING *;`
+*/
+```
+>It's important to note here that `format()` returns a *string*. It does not make the query for us.
 
 #### 4.1
-In order to prepare our JSON data for formatting into 
-#### 4.2 
-This function should insert all of the parks data that we are requiring in on line 1.
+
+In order to prepare our data for passing into the `format()` function offered by `pg-format`, we must arrange the values from the data into a nested array.
+
+Create a function called `arrangeParksData()`. This will be used as a *utility function* within the `insertParks()` function we will create in the next part of this task.
+
+`arrangeParksData()` should take one argument,`parksData`, which will - eventually - be the`parks` data we have required into the module on Line 1.
+
+It should return a nested array of values from the inserted data.
+
+```JavaScript
+// when passed: 
+const parks = [
+  { 
+    "park_name": 'Thorpe Park',
+    year_opened: 1979,
+    annual_attendance: 1700000 
+  },
+  { 
+    "park_name": 'Alton Towers',
+    year_opened: 1980,
+    annual_attendance: 2520000
+  }
+]
+
+
+arrangeParksData(parks)
+// it will return: [[ 'Thorpe Park', 1979, 1700000], ['Alton Towers', 1980, 2520000]] 
+```
+
+#### 4.2
+
+We're ready to insert some data in to our `parks` table now!
+
 Create a function called `insertParks` and add it to the promise chain in the seed function.
+
+This function should insert all of the parks data that we are requiring in on Line 1 and should utilise the `arrangeParksData()` function you have just defined.
 
 ### Task 5
 
@@ -125,7 +181,7 @@ Now that we are able to format the rides, use that function to format the rides 
 
 Now we should have some rides data stored in our database, You can complete the `selectRidesByParkId` function in models.js
 
-** Hint: I know that we've just gone through all the effort of converting the `park_name`s to `park_id`s but our clients will want the names to be sent to them. **
+**Hint: I know that we've just gone through all the effort of converting the `park_name`s to `park_id`s but our clients will want the names to be sent to them.**
 
 ### Task 10
 
@@ -137,11 +193,11 @@ Complete the `removePark` function in models.js
 
 ## Advanced Tasks
 
-### Task 12
+###  Task 12
 
 Take a look at the foods and stalls data in the `data` folder, this is a many to many relationship, think about the data types you want to store and which tables you will need to create to build this
 
-** Hint: You will need to create three tables if you want to store this without duplicating any information **
+**Hint: You will need to create three tables if you want to store this without duplicating any information**
 
 Update your seed function to create the tables required to store the stalls and food data
 
@@ -163,7 +219,7 @@ Create and test an `updateStall` model that will add an extra food that stall se
 
 Create and test a `removeStall` model.
 
-## Even More Challenges!
+## Even More Challenges
 
 Still going? 😮 Have a go at building any of the following models:
 
