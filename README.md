@@ -132,7 +132,7 @@ We're ready to insert some data in to our `parks` table now!
 
 Create a function called `insertParks` and add it to the promise chain in the seed function.
 
-This function should insert all of the parks data that we are requiring in on Line 1 and should utilise the `arrangeParksData()` function you have just defined.
+This function should insert all of the parks data that we are requiring in on Line 1 and should utilise `pg-format` and the `arrangeParksData()` function you have just defined.
 
 ### Task 5
 
