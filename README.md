@@ -144,11 +144,7 @@ We're ready to insert some data in to our `parks` table now!
 Create a function called `insertParks` and add it to the promise chain in the seed function.
 >It's important to note here that `format()` returns a *string*, it does not make the query for us.
 
-#### 4.1
-In order to prepare our JSON data for formatting into 
-#### 4.2 
-This function should insert all of the parks data that we are requiring in on Line 1 and should utilise `pg-format` and the `arrangeParksData()` function you have just defined.
-Create a function called `insertParks` and add it to the promise chain in the seed function.
+This function should insert all of the parks data that we are requiring in on Line 1 and should utilise the `arrangeParksData()` function you have just defined.
 
 ### Task 5
 
