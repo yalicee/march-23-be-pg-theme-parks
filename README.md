@@ -85,8 +85,7 @@ Create a function called `arrangeParksData()`. This will be used as a *utility f
 
 `arrangeParksData()` should take one argument,`parksData`, which will - eventually - be the`parks` data we have required into the module on Line 1.
 
-It should return a nested array of values from the inserted data.
-Next you'll need to create the `rides` table and add it to the seed function. You may want to do this with a function, as above.
+It should return a nested array of values from the data to it.
 
 ```JavaScript
 // when passed: 
@@ -108,23 +107,12 @@ arrangeParksData(parks)
 // it will return: [[ 'Thorpe Park', 1979, 1700000], ['Alton **Towers', 1980,** 2520000]] 
 ```
 
-To do this dynamically, using our data files, you will need to install pg-format:
-
-```zsh
-npm install -D pg-format
-```
 
 #### 4.2
 
-As you can see from the [documentation](https://github.com/datalanche/node-pg-format) for pg-format and the [NC Notes](https://notes.northcoders.com/courses/js-back-end/seeding-with-pg), the `format()` takes two arguments:
-
 We're ready to insert some data in to our `parks` table now!
 
-- An SQL query string, which can contain a placeholder for the formatted values
-- A nested array of the values to be inserted for each record
-
 Create a function called `insertParks` and add it to the promise chain in the seed function.
->It's important to note here that `format()` returns a *string*, it does not make the query for us.
 
 This function should insert all of the parks data that we are requiring in on Line 1 and should utilise the `arrangeParksData()` function you have just defined.
 
