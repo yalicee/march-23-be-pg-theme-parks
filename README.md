@@ -6,9 +6,11 @@ Before we can do that, we need to get some sample data into our database so we c
 
 Your tasks today will involve creating the tables, inserting the data and confirming that all of that data has been added.
 
+## Setup
+
 ---
 
-## Task 1
+### Task 1
 
 First you will need to create your databases, to do this run the `npm run setup-db` command.
 
@@ -20,7 +22,9 @@ Now you have your databases you can create your database connection, to do this 
 
 ---
 
-## Task 2
+## Seeding
+
+### Task 2
 
 Now that we can connect to your database, let's start the process of **seeding** it.
 
@@ -41,7 +45,7 @@ You can check this has worked by running `npm run seed` and checking the table l
 
 ---
 
-## Task 3
+### Task 3
 
 Next you'll need to create the `rides` table and add it to the seed function. You may want to do this with a function, as above.
 
@@ -56,7 +60,7 @@ Take a look at the data to decide on what data types to make them.
 
 ---
 
-## Task 4
+### Task 4
 
 Now that we have created our tables we will need to **insert some data** into it.
 
@@ -71,33 +75,9 @@ As you can see from the [documentation](https://github.com/datalanche/node-pg-fo
 - An SQL query string, which can contain a placeholder for the formatted values
 - A nested array of the values to be inserted for each record
 
-```js
-const format = require('pg-format');
-const db = require('./');
-
-const itemsInsertStr = format(
-  `INSERT INTO items
-    (item_name, quantity)
-  VALUES
-    %L
-  RETURNING *;`,
-  nestedArrOfValues // [['item-A', 3], ['item-B', 5]]
-);
-
-db.query(itemsInsertStr)
-/* returns: 
-  `INSERT INTO items
-    (item_name, quantity)
-  VALUES
-    ('item-A', 3)
-    ('item-B', 5)
-  RETURNING *;`
-*/
-```
-
 >It's important to note here that `format()` returns a *string*. It does not make the query for us.
 
-### 4.1
+#### 4.1
 
 In order to prepare our data for passing into the `format()` function offered by `pg-format`, we must arrange the values from the data into a nested array.
 
@@ -134,10 +114,12 @@ To do this dynamically, using our data files, you will need to install pg-format
 npm install -D pg-format
 ```
 
-### 4.2
+#### 4.2
+
 As you can see from the [documentation](https://github.com/datalanche/node-pg-format) for pg-format and the [NC Notes](https://notes.northcoders.com/courses/js-back-end/seeding-with-pg), the `format()` takes two arguments:
 
 We're ready to insert some data in to our `parks` table now!
+
 - An SQL query string, which can contain a placeholder for the formatted values
 - A nested array of the values to be inserted for each record
 
@@ -145,6 +127,8 @@ Create a function called `insertParks` and add it to the promise chain in the se
 >It's important to note here that `format()` returns a *string*, it does not make the query for us.
 
 This function should insert all of the parks data that we are requiring in on Line 1 and should utilise the `arrangeParksData()` function you have just defined.
+
+---
 
 ### Task 5
 
@@ -162,11 +146,11 @@ If your table creation and inserting has worked as expected, this test should pa
 
 > Before we insert the `rides` to our database we need to address a couple of problems:
 >
-> The rides columns in our table need to have `park_id` inserted into them.
+> The rides columns in our table need to have a `park_id` inserted into them.
 >
 > However, this `park_id` was created as a `SERIAL PRIMARY KEY` when we inserted the `parks` data into our database. So it exists in our database, but not in the local data we are using for seeding the `rides` table.
 >
-> The data we have access to *does* have keys of `park_name` so, in order to be able to insert the rides data in schema we defined earlier, we will need to be able to work out which `park_id` goes with which `park_name`.
+> The data we have access to *does* have keys of `park_name` so, in order to be able to insert the rides data into the table we defined earlier, we will need to be able to work out which `park_id` goes with which `park_name`.
 >
 > We will need access to the rows that have been inserted to the `parks` table.
 >
@@ -174,19 +158,19 @@ If your table creation and inserting has worked as expected, this test should pa
 
 ---
 
-## Task 6
+### Task 6
 
 Refactor the `insertParks` function to return all of the data that has been inserted.
 
 ---
 
-## Task 7
+### Task 7
 
 You should now be able to access the data in the `.then` block after you've inserted the `parks`.
 
 You will need to modify the rides data so that each of the rides, instead of having a `park_name` property, has an appropriate `park_id`.
 
-To do this, create a function called `formatRides`. This function should take two arguments:
+To do this, create a function called `prepareRidesData`. This function should take two arguments:
 
 1. An array of `rides` objects.
 2. An array of `parks` objects. (Returned from the database.)
@@ -221,23 +205,50 @@ will become
 ];
 ```
 
+---
+
 ### Task 8
 
-Now that we have the modified `rides` data. use that function to format the rides data and insert the data into the rides table.
+Now that we have the modified `rides` data contain the values our table needs, we need to insert that data onto the table.
+
+As before, we should utilise the `format()` function available to us from `pg-format`.
+
+#### 8.1
+
+Create a utility function to arrange the rides data: `arrangeRidesData()`
+
+It should take one argument, containing rides data, and return a *nested array* to be passed as a second argument into `format()`.
+
+> *Use T.D.D.* :red_square: :green_square: :recycle:
+
+#### 8.2
+
+Now to put it all together! Create an `insertRides()` function.
+
+This function will do the task of inserting the correct rides data into the database. It should take modified `rides` data and insert it, utilising `pg-format` and the utility function you've just defined and tested.
+
+---
 
 ### Task 9
 
-Now we should have some rides data stored in our database, You can complete the `selectRidesByParkId` function in models.js
+Now that we should have some rides data stored in our database, you can complete the `selectRidesByParkId` function in `models/rides.js`
 
-**Hint: I know that we've just gone through all the effort of converting the `park_name`s to `park_id`s but our clients will want the names to be sent to them.**
+> *Although we've just gone through all the effort of converting the `park_name`s to `park_id`s but it turns out our clients will want the names to be sent to them.* :woman_facepalming:
+
+---
 
 ### Task 10
 
-Complete the `updatePark` function in models.js
+Complete the `updateParkById` function in models.js
+
+---
 
 ### Task 11
 
-Complete the `removePark` function in models.js
+Complete the `removeParkById` function in models.js
+
+---
+---
 
 ## Advanced Tasks
 
@@ -245,9 +256,11 @@ Complete the `removePark` function in models.js
 
 Take a look at the foods and stalls data in the `data` folder, this is a many to many relationship, think about the data types you want to store and which tables you will need to create to build this
 
-**Hint: You will need to create three tables if you want to store this without duplicating any information**
+> *Hint:* You will need to create three tables if you want to store this without duplicating any information
 
 Update your seed function to create the tables required to store the stalls and food data
+
+---
 
 ### Task 13
 
@@ -255,17 +268,26 @@ Insert the data from foods and stalls into your database.
 
 Do make sure to write some tests for any utility functions that you need to create.
 
+---
+
 ### Task 14
 
 Create and test a `getStallById` model, this function should return all the foods that stall stocks as well as all the stall information
+
+---
 
 ### Task 15
 
 Create and test an `updateStall` model that will add an extra food that stall serves.
 
+---
+
 ### Task 16
 
 Create and test a `removeStall` model.
+
+---
+---
 
 ## Even More Challenges
 
