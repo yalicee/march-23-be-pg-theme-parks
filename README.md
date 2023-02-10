@@ -12,9 +12,9 @@ Your tasks today will involve creating the tables, inserting the data and confir
 
 ### Task 1
 
-First you will need to create your databases, to do this run the `npm run setup-db` command.
+First you will need to create your database, to do this run the `npm run setup-db` command.
 
-Now you have your databases you can create your database connection, to do this you'll need to update the `connection.js` file, we have already made the file but you'll need to add the code.
+Now you have your database you can create your database connection, to do this you'll need to update the `connection.js` file, we have already made the file but you'll need to add the code.
 
 - Install [node-postgres](https://node-postgres.com/)
 - Create a new [connection pool](https://node-postgres.com/features/connecting) in the `db/connection.js` file
@@ -163,7 +163,7 @@ To do this, create a function called `prepareRidesData`. This function should ta
 1. An array of `rides` objects.
 2. An array of `parks` objects. (Returned from the database.)
 
-`formatRides()` should return an array of `rides` objects with the appropriate keys on each one.
+`prepareRidesData` should return an array of `rides` objects with the appropriate keys on each one.
 
 Think about how you are going to ensure that each ride has the correct `park_id`.
 
