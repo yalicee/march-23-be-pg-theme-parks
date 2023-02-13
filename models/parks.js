@@ -1,5 +1,5 @@
 exports.selectParks = () => {};
 
-exports.removeParkById = () => {};
-
 exports.updateParkById = () => {};
+
+exports.removeParkById = () => {};
