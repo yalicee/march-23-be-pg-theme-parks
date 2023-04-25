@@ -226,13 +226,13 @@ Now that we should have some rides data stored in our database, you can complete
 
 ### Task 10
 
-Complete the `updateParkById` function in models.js.
+Complete the `updateParkById` function in models/parks.js.
 
 ---
 
 ### Task 11
 
-Complete the `removeParkById` function in models.js.
+Complete the `removeParkById` function in models/parks.js.
 
 ---
 
