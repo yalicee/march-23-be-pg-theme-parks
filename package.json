@@ -6,7 +6,7 @@
     "jest": "^26.6.3"
   },
   "scripts": {
-    "test": "npm run setup-db && PGDATABASE=theme_parks jest",
+    "test": "PGDATABASE=theme_parks jest",
     "setup-db": "psql -f ./db/theme-parks.sql",
     "seed": "PGDATABASE=theme_parks node db/run-seed.js",
     "sql-playground": "psql -f ./db/playground.sql"
