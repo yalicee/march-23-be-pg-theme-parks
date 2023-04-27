@@ -16,7 +16,7 @@ afterAll(() => {
   if (db.end) db.end();
 });
 
-describe("5. selectParks()", () => {
+describe.only("5. selectParks()", () => {
   test("should resolve with parks array", () => {
     return selectParks().then((parks) => {
       expect(parks).toBeInstanceOf(Array);
@@ -35,7 +35,7 @@ describe("5. selectParks()", () => {
   });
 });
 
-describe("9. selectRidesByParkId()", () => {
+describe.only("9. selectRidesByParkId()", () => {
   test("resolves with an array", () => {
     return selectRidesByParkId(3).then((rides) => {
       expect(rides).toBeInstanceOf(Array);
@@ -54,7 +54,7 @@ describe("9. selectRidesByParkId()", () => {
   });
 });
 
-describe("10. updateParkById()", () => {
+describe.only("10. updateParkById()", () => {
   it("returns the updated park", () => {
     const parkUpdates = {
       park_name: "Chessington Earth of Experiences",
@@ -73,7 +73,10 @@ describe("10. updateParkById()", () => {
       })
       .then(({ rows: [park] }) => {
         expect(park).toHaveProperty("annual_attendance", 0);
-        expect(park).toHaveProperty("park_name", "Chessington Earth of Experiences");
+        expect(park).toHaveProperty(
+          "park_name",
+          "Chessington Earth of Experiences"
+        );
       });
   });
   it("updates the database with the correct information", () => {
@@ -92,7 +95,7 @@ describe("10. updateParkById()", () => {
   });
 });
 
-describe("11. removeParkById()", () => {
+describe.only("11. removeParkById()", () => {
   test("should return undefined", () => {
     return removeParkById(2).then((response) => {
       expect(response).toBeUndefined();
